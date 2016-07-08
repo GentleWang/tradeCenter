@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>用户界面</title>
+</head>
+<script>
+    function audit(var yesOrNo) {
+        if(yesOrNo = "yes"){
+            windo
+        }
+    }
+</script>
+<body>
+<table align="center" border="1" cellspacing="0" cellpadding="0" >
+    <tr><td>欢迎您，$!userName，你所在的角色组是：$!roles</td></tr>
+    <tr><td></td></tr>
+    <table align="center" border="1" cellspacing="0" cellpadding="0" >
+        <tr><td>待办列表：</td></tr>
+        <tr><td>任务ID</td><td>当前节点名称</td><td>资产ID</td><td>项目登记员</td><td>备注</td><td>操作</td></tr>
+        #if($!{taskList})
+            #foreach($task in $!{taskList})
+                <tr><td>$!{task.taskID}</td><td>$!{task.taskName}</td><td>$!{task.assetID}</td><td>$!{task.ipnuterGroup}</td><td>$!{task.notices}</td><td><a href="auditAgree.do?taskID=$!{task.id}&userID=$!{userID}" >同意</a><a href="auditRefuse.do?taskID=$!{task.id}&userID=$!{userID}">拒绝</a></td></tr>
+            #end
+        #end
+    </table>
+</table>
+
+
+
+</body>
+</html>

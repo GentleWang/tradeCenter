@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jd.jr.tradeCenter.dao.impl.FinanceAssetsMapper" >
+  <resultMap id="BaseResultMap" type="com.jd.jr.tradeCenter.model.FinanceAssets" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="asset_name" property="assetName" jdbcType="VARCHAR" />
+    <result column="asset_transfer_ID" property="assetTransferId" jdbcType="VARCHAR" />
+    <result column="asset_transfee_ID" property="assetTransfeeId" jdbcType="VARCHAR" />
+    <result column="listing_price" property="listingPrice" jdbcType="DECIMAL" />
+    <result column="deposit" property="deposit" jdbcType="DECIMAL" />
+    <result column="listing_start_date" property="listingStartDate" jdbcType="TIMESTAMP" />
+    <result column="listing_end_date" property="listingEndDate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="asset_type" property="assetType" jdbcType="VARCHAR" />
+    <result column="crate_date" property="crateDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from finance_assets
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jd.jr.tradeCenter.model.FinanceAssets" >
+    insert into finance_assets (ID, asset_name, asset_transfer_ID, 
+      asset_transfee_ID, listing_price, deposit, 
+      listing_start_date, listing_end_date, status, 
+      asset_type, crate_date, update_date
+      )
+    values (#{id,jdbcType=VARCHAR}, #{assetName,jdbcType=VARCHAR}, #{assetTransferId,jdbcType=VARCHAR}, 
+      #{assetTransfeeId,jdbcType=VARCHAR}, #{listingPrice,jdbcType=DECIMAL}, #{deposit,jdbcType=DECIMAL}, 
+      #{listingStartDate,jdbcType=TIMESTAMP}, #{listingEndDate,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
+      #{assetType,jdbcType=TINYINT}, #{crateDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.jd.jr.tradeCenter.model.FinanceAssets" >
+    update finance_assets
+    set asset_name = #{assetName,jdbcType=VARCHAR},
+      asset_transfer_ID = #{assetTransferId,jdbcType=VARCHAR},
+      asset_transfee_ID = #{assetTransfeeId,jdbcType=VARCHAR},
+      listing_price = #{listingPrice,jdbcType=DECIMAL},
+      deposit = #{deposit,jdbcType=DECIMAL},
+      listing_start_date = #{listingStartDate,jdbcType=TIMESTAMP},
+      listing_end_date = #{listingEndDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT},
+      asset_type = #{assetType,jdbcType=TINYINT},
+      crate_date = #{crateDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select ID, asset_name, asset_transfer_ID, asset_transfee_ID, listing_price, deposit, 
+    listing_start_date, listing_end_date, status, asset_type, crate_date, update_date
+    from finance_assets
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select ID, asset_name, asset_transfer_ID, asset_transfee_ID, listing_price, deposit, 
+    listing_start_date, listing_end_date, status, asset_type, crate_date, update_date
+    from finance_assets
+  </select>
+</mapper>

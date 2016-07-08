@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head> 
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta name="description" content="京东金融综合互联网理财服务，基金理财,金融服务，敬请享受! " />
+	<meta name="keywords" content="京东理财,网上理财,基金理财,金融服务,马上有钱,理财规划,个人理财,家庭理财,第三方理财,投资理财,京东贷/" />
+    <title>#if($title) $!title #else 金融资产交易中心 #end</title>
+	<link rel="icon" href="//www.jd.com/favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" type="text/css" href="//static.360buyimg.com/finance/base/1.2.0/css/base.css" />
+    <link rel="stylesheet" type="text/css" href="//static.360buyimg.com/finance/financial/common/unit/issue/1.0.0/css/issue.css" />
+	#if($links)
+		#foreach($link in $links)
+			$link
+		#end
+	#end
+	
+	#if($scripts)
+		#foreach($script in $scripts)
+			$script
+		#end
+	#end
+	
+	<script type="text/javascript">
+    	window.jrBase = {
+    		navId : "nav-licai",
+    		navSubId : "nav-wsd",
+    		headerFix : true,
+    		// 是否启用侧边工具栏 包含 返回顶部 和 问卷反馈
+    		sidebar : true,
+    		// 问卷反馈url id为业务线配置
+    		feedbackUrl : "//ur.jr.jd.com/survey/show?id=110",
+    		jrQaUrl : "//club.jr.jd.com/jdd/jingxuan",
+    		//在线客服
+			serviceUrl: "//chat.jd.com/jd/chat?entry=jd_jr_jdd"
+    	};
+	</script>
+</head>
+<body>
+    ##parse("common/header.vm")
+	<!--#contain absolute="/export/Data/atm.jr.jd.com/common/config1/jr_atm_Header_sub_1.2.0_utf8.html" -->
+    $screen_content
+    ##parse("common/footer.vm")	
+	<!--#contain absolute="/export/Data/atm.jr.jd.com/common/config1/jr_atm_Footer_utf8.html" -->
+	<script type="text/javascript">
+        var jaq = jaq || [];
+        jaq.push(['account','UA-J2011-12']);
+        jaq.push(['domain','jr.jd.com']);
+        (function() {
+            var ja = document.createElement('script'); ja.type = 'text/javascript'; ja.async = true;
+    
+            ja.src = ('https:' == document.location.protocol ? 'https://cscssl' : '//csc') + '.jd.com/joya.js';
+            var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ja,s);
+        })();
+    </script>
+    <script type="text/javascript">
+        var jaq = jaq || [];
+        jaq.push(['account','UA-J2011-12']);
+        jaq.push(['domain','jr.jd.com']);
+        (function() {
+            var ja = document.createElement('script'); ja.type = 'text/javascript'; ja.async = true;
+            ja.src = ('https:' == document.location.protocol ? 'https://click' : '//click') + '.jr.jd.com/wl.dev.js';
+            var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ja,s);
+        })();
+    </script>
+    <script type="text/javascript">
+        (function() {
+            var ja = document.createElement('script'); ja.type = 'text/javascript'; ja.async = true;
+            ja.src = ('https:' == document.location.protocol ? 'https://' : '//') + 't.jr.jd.com/js/clickPeer.js';
+            var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ja,s);
+        })();
+    </script>
+    <script type="text/javascript">
+        (function() {
+            var ja = document.createElement('script'); ja.type = 'text/javascript'; ja.async = true;
+            ja.src = ('https:' == document.location.protocol ? 'https://' : '//') + 't.jr.jd.com/js/clickFbfinance.js';
+            var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ja,s);
+        })();
+    </script>
+</body>
+</html>

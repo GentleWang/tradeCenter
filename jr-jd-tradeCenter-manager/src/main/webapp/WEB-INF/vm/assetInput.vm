@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>资产录入</title>
+</head>
+<body>
+
+        <form action="/asset/assetInputSubmit.do" method="post" >
+            <table>
+                <tr><td><label>资产名称</label><input  type="text" name="assetName" /></td></td></tr>
+                <tr><td><label>挂牌价格</label><input type="text" name="listingPrice"/></td></tr>
+                <tr><td><label>保证金</label><input type="text" name="deposit"/></td></tr>
+                #*<tr><td><label>挂牌起始日期</label><input type="text" name="listingStartDate"/></td></tr>
+                <tr><td><label>挂牌终止日期</label><input type="text" name="listingEndDate"/></td></tr>*#
+                <tr><td><label>资产类型</label><input type="text" name="assetType"/></td></tr>
+                <tr><td><label>转让方ID</label><input type="text" name="assetTransferId"/></td></tr>
+                <tr><td><label>您的USERID</label><input type="text" name="userID"/></td></tr>
+                <tr><td><input type="submit" /></td></tr>
+            </table>
+        </form>
+
+</body>
+</html>

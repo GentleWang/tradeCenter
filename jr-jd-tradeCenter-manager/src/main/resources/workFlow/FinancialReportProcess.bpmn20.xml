@@ -1,0 +1,41 @@
+<definitions id="definitions"
+             targetNamespace="http://activiti.org/bpmn20"
+             xmlns:activiti="http://activiti.org/bpmn"
+             xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+
+    <process id="tradeCenterProcess" name="金融交易中心交易流程">
+
+        <startEvent id="theStart" />
+
+        <sequenceFlow id='step_1' sourceRef='theStart' targetRef='assetInput' />
+
+        <userTask id="assetInput" name="资产登记"  activiti:candidateGroups="转让方">
+            <documentation>
+                在交易所登记金融资产
+            </documentation>
+            <potentialOwner>
+                <resourceAssignmentExpression>
+                    <formalExpression>accountancy</formalExpression>
+                </resourceAssignmentExpression>
+            </potentialOwner>
+        </userTask>
+
+        <sequenceFlow id='step_2' sourceRef='assetInput' targetRef="OperateAudit" />
+
+        <userTask id="OperateAudit" name="运营初审" activiti:candidateGroups="交易所运营" >
+            <documentation>
+              运营初审
+            </documentation>
+            <potentialOwner>
+                <resourceAssignmentExpression>
+                    <formalExpression>management</formalExpression>
+                </resourceAssignmentExpression>
+            </potentialOwner>
+        </userTask>
+        <sequenceFlow id='step_3' sourceRef="OperateAudit" targetRef='theEnd' />
+
+        <endEvent id="theEnd" />
+
+    </process>
+
+</definitions>

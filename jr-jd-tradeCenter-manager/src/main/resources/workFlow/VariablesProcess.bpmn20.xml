@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<definitions id="definitions"
+             targetNamespace="http://activiti.org/bpmn20"
+             xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:activiti="http://activiti.org/bpmn">
+
+    <process id="financeAssets" name="资产登录流程">
+        <startEvent id="input" activiti:initiator="ipnuterGroup">
+            <extensionElements>
+                <activiti:formProperty id="assetType" name="资产类型" type="string"/>
+                <activiti:formProperty id="assetID" name="资产ID" type="string" required="true"/>
+                <activiti:formProperty id="notices" name="备注" type="string" />
+            </extensionElements>
+        </startEvent>
+        <sequenceFlow id="flow1" sourceRef="input" targetRef="OperateAudit" />
+
+        <userTask id="OperateAudit" name="运营初审" >
+            <documentation>
+                ${ipnuterGroup} 录入一份虚拟资产，资产类型是： ${assetType} (备注: ${notices}).
+            </documentation>
+            <extensionElements>
+                <activiti:formProperty id="AuditApproved" name="初审意见" type="enum" required="true">
+                    <activiti:value id="true" name="同意" />
+                    <activiti:value id="false" name="拒绝" />
+                </activiti:formProperty>
+                <activiti:formProperty id="notices" name="意见" type="string" />
+            </extensionElements>
+            <potentialOwner>
+                <resourceAssignmentExpression>
+                    <formalExpression>Operaters</formalExpression>
+                </resourceAssignmentExpression>
+            </potentialOwner>
+        </userTask>
+        <sequenceFlow id="flow2" sourceRef="OperateAudit" targetRef="requestApprovedDecision" />
+
+        <exclusiveGateway id="requestApprovedDecision" name="运营是否同意" />
+        <sequenceFlow id="flow3" sourceRef="requestApprovedDecision" targetRef="theEnd1">
+            <!-- 分支跳转条件 -->
+            <conditionExpression xsi:type="tFormalExpression">${AuditApproved == 'true'}</conditionExpression>
+        </sequenceFlow>
+        <endEvent id="theEnd1" />
+
+        <sequenceFlow id="flow5" sourceRef="requestApprovedDecision" targetRef="AssetIputAgainTask">
+            <conditionExpression xsi:type="tFormalExpression">${AuditApproved == 'false'}</conditionExpression>
+        </sequenceFlow>
+
+        <userTask id="AssetIputAgainTask" name="修改重新录入">
+            <documentation>
+                请重新录入：
+                原因: ${notices}
+            </documentation>
+            <extensionElements>
+                <activiti:formProperty id="assetType" name="资产类型" type="string" required="true"/>
+                <activiti:formProperty id="notices" name="备注" type="string" />
+                <activiti:formProperty id="resendRequest" name="是否重新提交申请" type="enum" required="true">
+                    <activiti:value id="true" name="是" />
+                    <activiti:value id="false" name="否" />
+                </activiti:formProperty>
+            </extensionElements>
+            <humanPerformer>
+                <resourceAssignmentExpression>
+                    <formalExpression>${ipnuterGroup}</formalExpression>
+                </resourceAssignmentExpression>
+            </humanPerformer>
+        </userTask>
+        <sequenceFlow id="flow6" sourceRef="AssetIputAgainTask" targetRef="resendRequestDecision" />
+
+        <exclusiveGateway id="resendRequestDecision" name="是否重新录入" />
+        <sequenceFlow id="flow7" sourceRef="resendRequestDecision" targetRef="OperateAudit">
+            <conditionExpression xsi:type="tFormalExpression">${resendRequest == 'true'}</conditionExpression>
+        </sequenceFlow>
+
+        <sequenceFlow id="flow8" sourceRef="resendRequestDecision" targetRef="theEnd2">
+            <conditionExpression xsi:type="tFormalExpression">${resendRequest == 'false'}</conditionExpression>
+        </sequenceFlow>
+        <endEvent id="theEnd2" />
+    </process>
+
+</definitions>

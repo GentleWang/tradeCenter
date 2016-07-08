@@ -1,0 +1,104 @@
+##分页宏方法
+#macro (showPage $page $nextUrl)
+    #if($page)
+		#set($nextUrl = $nextUrl.toString())
+			#if($page.count>0)
+        <div class="p2_pages"> 
+    			#if($!page.num == 1)
+            		<a style='color:#686868'>首页</a>
+            		<a>上一页</a>
+    			#else
+    				#set($prev = $page.num - 1)
+            		<a style='color:#686868' href="#lc" onclick="doQuery('${nextUrl}','1')">首页</a>
+            		<a href="#lc" onclick="doQuery('${nextUrl}','$prev')">上一页</a>
+    			#end
+    			#set($mix = 1)
+    			#set($max = 1)
+        		#if($!page.count < 6)
+    				#set($max = $!page.count)
+    			#else
+    				#if($!page.num <= 3)
+    					#set($max = 5)
+    				#elseif($!page.num < $!page.count - 2)
+    					#set($mix = $!page.num - 2)
+    					#set($max = $!page.num + 2)
+    				#else
+    					#set($mix = $!page.count - 4)
+    					#set($max = $!page.count)
+    				#end
+    			#end
+    			#foreach($i in [${mix}..${max}])
+        			#if($i == $!page.num)
+    					<a class='current'>$i</a>
+        			#else
+    					<a href='#lc' onclick="doQuery('${nextUrl}','$i')" >$i</a>
+        			#end
+    			#end
+    			#if($page.num == $page.last)
+            		<a>下一页</a>
+                	<a>末页</a>
+    			#else
+    				#set($next = $page.num + 1)
+            		<a href='#lc' onclick="doQuery('${nextUrl}','$next')" >下一页</a>
+                	<a href='#lc' onclick="doQuery('${nextUrl}','$page.count')" >末页</a>
+    			#end
+    	</div>
+			#end
+    #end          
+#end
+
+#macro (getStringLength $str $name)
+	
+	#if($!str) 
+		#set($name = $str.length())
+	#else
+		
+		#set($name = 0)
+	#end
+	
+#end	
+#macro (showPageTips $resultVO)
+	#if($!resultVO)
+		#if($!resultVO.success)
+			#set($tipClassName = "gou")
+		#else
+			#set($tipClassName = "cha")
+		#end
+    	<div class="$!{tipClassName} sp_block" id="$!{tipClassName}"><var>&nbsp;</var><span>$!{resultVO.msg}</span><a href="#lc" class="close">&nbsp;</a></div>
+	#end
+#end
+
+
+#macro(showSimpleError)
+    #if(!$!actionErrors.empty)
+        #foreach($str in $actionErrors)
+            $!str
+            #break
+        #end
+    #end
+#end
+
+#macro(showError)
+    #if(!$!actionErrors.empty)
+        #foreach($str in $actionErrors)
+        <li>$!str</li>
+        #end
+    #end
+#end
+
+#macro(showSimpleMessage)
+    #if(!$!actionMessages.empty)
+        #foreach($str in $actionErrors)
+            $!str
+            #break
+        #end
+    #end
+#end
+
+#macro(showMessage)
+    #if(!$!actionMessages.empty)
+        #foreach($str in $actionErrors)
+        <li>$!str</li>
+        #end
+    #end
+#end

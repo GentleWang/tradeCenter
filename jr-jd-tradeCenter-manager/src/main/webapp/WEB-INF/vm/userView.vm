@@ -21,7 +21,7 @@
         <tr><td>任务ID</td><td>当前节点名称</td><td>资产ID</td><td>项目登记员</td><td>备注</td><td>操作</td></tr>
         #if($!{taskList})
             #foreach($task in $!{taskList})
-                <tr><td>$!{task.taskID}</td><td>$!{task.taskName}</td><td>$!{task.assetID}</td><td>$!{task.ipnuterGroup}</td><td>$!{task.notices}</td><td><a href="auditAgree.do?taskID=$!{task.id}&userID=$!{userID}" >同意</a><a href="auditRefuse.do?taskID=$!{task.id}&userID=$!{userID}">拒绝</a></td></tr>
+                <tr><td>$!{task.taskID}</td><td>$!{task.taskName}</td><td>$!{task.assetID}</td><td>$!{task.ipnuterGroup}</td><td>$!{task.notices}</td><td><a href="auditAgree.do?taskID=$!{task.taskID}&userID=$!{userID}" >同意</a><a href="auditRefuse.do?taskID=$!{task.taskID}&userID=$!{userID}">拒绝</a></td></tr>
             #end
         #end
     </table>

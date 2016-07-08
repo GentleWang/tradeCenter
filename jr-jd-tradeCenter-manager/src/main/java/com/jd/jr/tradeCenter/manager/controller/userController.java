@@ -56,7 +56,7 @@ public class userController {
         System.out.println("用户："+userID+"正在审核，任务ID是："+taskID);
         HashMap<String,Object> variables = new HashMap<String, Object>();
         variables.put("AuditApproved","true");
-        variables.put("notices","我同意了");
+        variables.put("notices","同意");
         workFlowRun.operate(taskID,variables);
         return "login";
     }

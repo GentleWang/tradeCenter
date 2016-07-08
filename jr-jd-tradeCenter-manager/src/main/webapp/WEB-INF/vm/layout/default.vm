@@ -9,9 +9,9 @@
     <meta name="description" content="京东金融综合互联网理财服务，基金理财,金融服务，敬请享受! " />
 	<meta name="keywords" content="京东理财,网上理财,基金理财,金融服务,马上有钱,理财规划,个人理财,家庭理财,第三方理财,投资理财,京东贷/" />
     <title>#if($title) $!title #else 金融资产交易中心 #end</title>
-	<link rel="icon" href="//www.jd.com/favicon.ico" type="image/x-icon" />
+	#*<link rel="icon" href="//www.jd.com/favicon.ico" type="image/x-icon" />
 	<link rel="stylesheet" type="text/css" href="//static.360buyimg.com/finance/base/1.2.0/css/base.css" />
-    <link rel="stylesheet" type="text/css" href="//static.360buyimg.com/finance/financial/common/unit/issue/1.0.0/css/issue.css" />
+    <link rel="stylesheet" type="text/css" href="//static.360buyimg.com/finance/financial/common/unit/issue/1.0.0/css/issue.css" />*#
 	#if($links)
 		#foreach($link in $links)
 			$link

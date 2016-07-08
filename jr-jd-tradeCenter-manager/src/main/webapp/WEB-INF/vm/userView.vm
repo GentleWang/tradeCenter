@@ -14,7 +14,7 @@
 </script>
 <body>
 <table align="center" border="1" cellspacing="0" cellpadding="0" >
-    <tr><td>欢迎您，$!userName，你所在的角色组是：$!roles</td></tr>
+    <tr><td>欢迎您：$!userName   你所在的角色组是：$!roles</td></tr>
     <tr><td></td></tr>
     <table align="center" border="1" cellspacing="0" cellpadding="0" >
         <tr><td>待办列表：</td></tr>

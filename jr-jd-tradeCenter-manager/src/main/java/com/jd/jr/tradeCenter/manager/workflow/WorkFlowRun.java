@@ -1,9 +1,7 @@
 package com.jd.jr.tradeCenter.manager.workflow;
 
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
+import org.activiti.engine.*;
+import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,10 @@ public class WorkFlowRun {
     private RepositoryService repositoryService;
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private HistoryService historyService;
+    @Autowired
+    private IdentityService identityService;
 
 
     public void startEnvent(String ID,String userID){
@@ -68,12 +70,36 @@ public class WorkFlowRun {
             hashMap.put("assetID",variables.get("assetID"));
             hashMap.put("notices",variables.get("notices"));
             hashMap.put("ipnuterGroup",variables.get("ipnuterGroup"));
+            hashMap.put("progressInstanceID",task.getProcessInstanceId());
             taskAndVariablesList.add(hashMap);
         }
 
         return taskAndVariablesList;
     }
-    public void operate(String taskID,Map variables){
+
+    public List<Map<String,Object>> queryMyHadDone(String userID){
+        System.out.println("用户："+userID+"正在查询已办");
+        List<Map<String,Object>> taskAndVariablesList = new ArrayList<Map<String, Object>>();
+
+        List<HistoricActivityInstance> hais = historyService.createHistoricActivityInstanceQuery()
+                // 过滤条件
+                .taskAssignee(userID).finished()
+                // 排序条件
+                .orderByHistoricActivityInstanceEndTime().asc()
+                // 执行查询
+                .list();
+        for (HistoricActivityInstance historicActivityInstance:hais) {
+            HashMap<String,Object> hashMap = new HashMap<String, Object>();
+            hashMap.put("progressInstanceID",historicActivityInstance.getProcessInstanceId());
+            hashMap.put("activityName",historicActivityInstance.getActivityName());
+            hashMap.put("startTime",historicActivityInstance.getStartTime());
+            hashMap.put("endTime",historicActivityInstance.getEndTime());
+            taskAndVariablesList.add(hashMap);
+        }
+        return taskAndVariablesList;
+    }
+    public void operate(String taskID,Map variables,String userID){
+        taskService.claim(taskID,userID);
         taskService.complete(taskID,variables);
     }
 

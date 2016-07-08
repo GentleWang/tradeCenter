@@ -42,10 +42,12 @@ public class userController {
             model.addAttribute("rolesGroup",user.getRolesGroup());
             System.out.println("用户："+user.getUserName()+"登录成功");
             List<Map<String,Object>> taskList = workFlowRun.queryMyToDo(user.getUserID(),user.getRolesGroup());
+            List<Map<String,Object>> doneList = workFlowRun.queryMyHadDone(user.getUserID());
             for (Map task:taskList) {
                 System.out.println("用户："+user.getUserName()+"的待办："+task.toString());
             }
             model.addAttribute("taskList",taskList);
+            model.addAttribute("doneList",doneList);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,8 +58,9 @@ public class userController {
         System.out.println("用户："+userID+"正在审核，任务ID是："+taskID);
         HashMap<String,Object> variables = new HashMap<String, Object>();
         variables.put("AuditApproved","true");
+        variables.put("resendRequest","true");
         variables.put("notices","同意");
-        workFlowRun.operate(taskID,variables);
+        workFlowRun.operate(taskID,variables,userID);
         return "login";
     }
     @RequestMapping(value ="/auditRefuse", method = { RequestMethod.POST, RequestMethod.GET })
@@ -65,8 +68,9 @@ public class userController {
         System.out.println("用户："+userID+"正在审核，任务ID是："+taskID);
         HashMap<String,Object> variables = new HashMap<String, Object>();
         variables.put("AuditApproved","false");
+        variables.put("resendRequest","false");
         variables.put("notices","不同意");
-        workFlowRun.operate(taskID,variables);
+        workFlowRun.operate(taskID,variables,userID);
         return "login";
     }
 }

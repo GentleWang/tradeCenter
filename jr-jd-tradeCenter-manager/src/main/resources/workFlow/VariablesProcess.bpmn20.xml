@@ -6,7 +6,7 @@
              xmlns:activiti="http://activiti.org/bpmn">
 
     <process id="financeAssets" name="资产登录流程">
-        <startEvent id="input" activiti:initiator="ipnuterGroup">
+        <startEvent id="input" activiti:initiator="ipnuterGroup" activiti:assignee="${ipnuterGroup}">
             <extensionElements>
                 <activiti:formProperty id="assetType" name="资产类型" type="string"/>
                 <activiti:formProperty id="assetID" name="资产ID" type="string" required="true"/>

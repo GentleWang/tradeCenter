@@ -75,7 +75,7 @@ public class TestWorkFlow {
         String processInstanceId = "1401";
         List<HistoricActivityInstance> hais = historyService.createHistoricActivityInstanceQuery()
                 // 过滤条件
-                .processInstanceId("4" )
+                .taskAssignee("inputer1").finished()
                 // 排序条件
                 .orderByHistoricActivityInstanceEndTime().asc()
                 // 执行查询
@@ -89,6 +89,7 @@ public class TestWorkFlow {
             System.out.print("startTime:" + hai.getStartTime()+"，");
             System.out.print("endTime:" + hai.getEndTime()+"，");
             System.out.println("duration:" + hai.getDurationInMillis());
+            System.out.println("ActivityType:" + hai.getActivityType());
         }
     }
 

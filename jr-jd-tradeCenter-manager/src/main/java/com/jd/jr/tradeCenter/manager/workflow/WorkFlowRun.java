@@ -123,7 +123,9 @@ public class WorkFlowRun {
             activityMap.put("activityAssignee", hai.getAssignee());
             activityMap.put("activityEndTime", hai.getEndTime());
             activityMap.put("duration", hai.getDurationInMillis());
-            activityList.add(activityMap);
+            if(!"exclusiveGateway".equals(hai.getActivityType())){
+                activityList.add(activityMap);
+            }
         }
         return activityList;
     }

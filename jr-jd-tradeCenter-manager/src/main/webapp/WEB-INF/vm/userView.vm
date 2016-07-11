@@ -33,7 +33,7 @@
         <tr bgcolor="#deb887"><td>流程ID</td><td>执行的任务</td><td>开始时间</td><td>处理时间</td></tr>
         #if($!{doneList})
             #foreach($task in $!{doneList})
-                <tr><td>$!{task.progressInstanceID}</td><td>$!{task.activityName}</td><td>$!{task.startTime}</td><td>$!{task.endTime}</td></tr>
+                <tr><td><a target="frame" href="queryActivityDetail.do?processInstanceID=$!{task.progressInstanceID}">$!{task.progressInstanceID}</a></td><td>$!{task.activityName}</td><td>$!{task.startTime}</td><td>$!{task.endTime}</td></tr>
             #end
         #end
     </table>

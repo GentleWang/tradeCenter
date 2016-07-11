@@ -2,7 +2,6 @@ package com.jd.jr.tradeCenter.manager.controller;
 
 import com.jd.jr.tradeCenter.manager.enums.UserEnum;
 import com.jd.jr.tradeCenter.manager.workflow.WorkFlowRun;
-import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -72,5 +71,13 @@ public class userController {
         variables.put("notices","不同意");
         workFlowRun.operate(taskID,variables,userID);
         return "login";
+    }
+
+    @RequestMapping(value ="/queryActivityDetail", method = { RequestMethod.POST, RequestMethod.GET })
+    public String queryActivityDetail(@RequestParam(value = "processInstanceID")String processInstanceID,HttpServletRequest request,Model model){
+        System.out.println("正在查询任务："+processInstanceID+"的详细流程：");
+        List list = workFlowRun.queryProcessIntenceDetail(processInstanceID);
+        model.addAttribute("activityDetails",list);
+        return "processInstanceDetail";
     }
 }

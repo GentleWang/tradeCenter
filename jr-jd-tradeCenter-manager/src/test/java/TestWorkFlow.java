@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +76,7 @@ public class TestWorkFlow {
         String processInstanceId = "1401";
         List<HistoricActivityInstance> hais = historyService.createHistoricActivityInstanceQuery()
                 // 过滤条件
-                .taskAssignee("inputer1").finished()
+                .processInstanceId("5018")
                 // 排序条件
                 .orderByHistoricActivityInstanceEndTime().asc()
                 // 执行查询
@@ -189,4 +190,5 @@ public class TestWorkFlow {
         inputVariables.put("notices", "inputer1"+" 录入虚拟资产");
         taskService.complete(inputTask.getId(),inputVariables);
     }
+
 }

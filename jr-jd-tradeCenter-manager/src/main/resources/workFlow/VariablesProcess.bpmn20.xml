@@ -5,8 +5,8 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:activiti="http://activiti.org/bpmn">
 
-    <process id="financeAssets" name="资产登录流程">
-        <startEvent id="input" activiti:initiator="ipnuterGroup" >
+    <process id="financeAssets" name="资产录入流程">
+        <startEvent id="input" activiti:initiator="ipnuterGroup" name="开始" >
         </startEvent>
         <sequenceFlow id="flow0" sourceRef="input" targetRef="inputTask" />
         <userTask id="inputTask" name="登记员录入资产" >
@@ -46,7 +46,7 @@
             <!-- 分支跳转条件 -->
             <conditionExpression xsi:type="tFormalExpression">${AuditApproved == 'true'}</conditionExpression>
         </sequenceFlow>
-        <endEvent id="theEnd1" />
+        <endEvent id="theEnd1" name="结束" />
 
         <sequenceFlow id="flow5" sourceRef="requestApprovedDecision" targetRef="AssetIputAgainTask">
             <conditionExpression xsi:type="tFormalExpression">${AuditApproved == 'false'}</conditionExpression>
@@ -81,7 +81,7 @@
         <sequenceFlow id="flow8" sourceRef="resendRequestDecision" targetRef="theEnd2">
             <conditionExpression xsi:type="tFormalExpression">${resendRequest == 'false'}</conditionExpression>
         </sequenceFlow>
-        <endEvent id="theEnd2" />
+        <endEvent id="theEnd2" name="结束"/>
     </process>
 
 </definitions>

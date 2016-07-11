@@ -163,4 +163,30 @@ public class TestWorkFlow {
             System.out.println(variableName + " = " +val);
         }
     }
+
+
+    @Test
+    public  void setProcessIniter(){
+        System.out.println("开始录入资产");
+        repositoryService.createDeployment().addClasspathResource("workFlow/VariablesProcess.bpmn20.xml").deploy();
+//        String processID =  runtimeService.startProcessInstanceByKey("financeAssets").getId();
+//        System.out.println("新建流程ID"+processID);
+
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("ipnuterGroup", "inputer1");
+        RuntimeService runtimeService = processEngine.getRuntimeService();
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("financeAssets", variables);
+//        ProcessInstance processInstance = runtimeService.startProcessInstanceByKeyAndTenantId("financeAssets", variables,userID);
+
+        System.out.println("Number of process instances: " + runtimeService.createProcessInstanceQuery().count());
+        System.out.println("ProcessInstance: " + processInstance.getId());
+        Map<String, Object> initVariables = new HashMap<String, Object>();
+        Task inputTask = taskService.createTaskQuery().processInstanceId(processInstance.getId()).taskAssignee("inputer1").singleResult();
+        System.out.println(inputTask.getId());
+        Map<String, Object> inputVariables = new HashMap<String, Object>();
+        inputVariables.put("ipnuterGroup", "inputer1");
+        inputVariables.put("assetID", 1111);
+        inputVariables.put("notices", "inputer1"+" 录入虚拟资产");
+        taskService.complete(inputTask.getId(),inputVariables);
+    }
 }

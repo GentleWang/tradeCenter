@@ -6,15 +6,22 @@
              xmlns:activiti="http://activiti.org/bpmn">
 
     <process id="financeAssets" name="资产登录流程">
-        <startEvent id="input" activiti:initiator="ipnuterGroup" activiti:assignee="${ipnuterGroup}">
+        <startEvent id="input" activiti:initiator="ipnuterGroup" >
+        </startEvent>
+        <sequenceFlow id="flow0" sourceRef="input" targetRef="inputTask" />
+        <userTask id="inputTask" name="登记员录入资产" >
             <extensionElements>
                 <activiti:formProperty id="assetType" name="资产类型" type="string"/>
                 <activiti:formProperty id="assetID" name="资产ID" type="string" required="true"/>
                 <activiti:formProperty id="notices" name="备注" type="string" />
             </extensionElements>
-        </startEvent>
-        <sequenceFlow id="flow1" sourceRef="input" targetRef="OperateAudit" />
-
+            <humanPerformer>
+                <resourceAssignmentExpression>
+                    <formalExpression>${ipnuterGroup}</formalExpression>
+                </resourceAssignmentExpression>
+            </humanPerformer>
+        </userTask>
+        <sequenceFlow id="flow1" sourceRef="inputTask" targetRef="OperateAudit" />
         <userTask id="OperateAudit" name="运营初审" >
             <documentation>
                 ${ipnuterGroup} 录入一份虚拟资产，资产类型是： ${assetType} (备注: ${notices}).

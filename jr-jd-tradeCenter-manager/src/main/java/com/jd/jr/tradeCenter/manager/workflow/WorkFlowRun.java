@@ -38,16 +38,21 @@ public class WorkFlowRun {
 //        String processID =  runtimeService.startProcessInstanceByKey("financeAssets").getId();
 //        System.out.println("新建流程ID"+processID);
 
-        Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put("ipnuterGroup", userID);
-        variables.put("assetID", ID);
-        variables.put("notices", userID+" 录入虚拟资产");
-
-        RuntimeService runtimeService = processEngine.getRuntimeService();
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("financeAssets", variables);
+        Map<String, Object> initVariables = new HashMap<String, Object>();
+        initVariables.put("ipnuterGroup", userID);
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("financeAssets", initVariables);
+//        ProcessInstance processInstance = runtimeService.startProcessInstanceByKeyAndTenantId("financeAssets", variables,userID);
 
         System.out.println("Number of process instances: " + runtimeService.createProcessInstanceQuery().count());
         System.out.println("ProcessInstance: " + processInstance.getId());
+
+        Task inputTask = taskService.createTaskQuery().taskAssignee(userID).processInstanceId(processInstance.getId()).singleResult();
+        Map<String, Object> inputVariables = new HashMap<String, Object>();
+        inputVariables.put("ipnuterGroup", userID);
+        inputVariables.put("assetID", ID);
+        inputVariables.put("notices", userID+" 录入虚拟资产");
+        taskService.complete(inputTask.getId(),inputVariables);
+
     }
 
     public List<Map<String,Object>> queryMyToDo(String userID,String rolesGroup){

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jsf="http://jsf.jd.com/schema/jsf"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+   	 http://jsf.jd.com/schema/jsf http://jsf.jd.com/schema/jsf/jsf.xsd">
+
+    <!-- 注册中心  192.168.150.121 i.jsf.jd.com  #测试index服务地址 -->
+    <jsf:registry id="jsfRegistry" protocol="jsfRegistry" index="i.jsf.jd.com"/>
+    <!-- 服务调用者配置 直连使用 url="jsf://10.12.113.111:22000;jsf://10.12.113.112:22000" -->
+
+    <!-- 查询工作流 -->
+	<jsf:consumer id="queryWorkFlowService"
+		interface="jd.jr.workFlow.service.QueryWorkFlowService" alias="queryWorkFlowProvider"
+				  registry="jsfRegistry" protocol="jsf" timeout="2000" check="false">
+	</jsf:consumer>
+	<!-- 执行工作流 -->
+	<jsf:consumer id="workFlowRunService"
+				  interface="jd.jr.workFlow.service.WorkFlowRunService" alias="workFlowRunProvider"
+				  registry="jsfRegistry" protocol="jsf" timeout="2000" check="false">
+	</jsf:consumer>
+
+
+
+</beans>

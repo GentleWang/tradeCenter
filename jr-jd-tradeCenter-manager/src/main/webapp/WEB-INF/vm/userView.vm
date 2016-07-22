@@ -23,7 +23,7 @@
         <tr bgcolor="#deb887"><td>流程ID</td><td>流程名称</td><td>节点ID</td><td>当前节点名称</td><td>资产ID</td><td>项目登记员</td><td>备注</td><td>操作</td></tr>
         #if($!{taskList})
             #foreach($task in $!{taskList})
-                <tr><td><a target="frame" href="queryActivityDetail.do?processInstanceID=$!{task.progressInstanceID}">$!{task.progressInstanceID}</a></td><td></td><td>$!{task.taskID}</td><td>$!{task.taskName}</td><td>$!{task.assetID}</td><td>$!{task.ipnuterGroup}</td><td>$!{task.notices}</td><td><a href="auditAgree.do?taskID=$!{task.taskID}&userID=$!{userID}" >同意</a><a href="auditRefuse.do?taskID=$!{task.taskID}&userID=$!{userID}">拒绝</a></td></tr>
+                <tr><td><a target="frame" href="queryActivityDetail.do?processInstanceID=$!{task.processInstanceID}">$!{task.processInstanceID}</a></td><td></td><td>$!{task.taskID}</td><td>$!{task.taskName}</td><td>$!{task.assetID}</td><td>$!{task.ipnuterGroup}</td><td>$!{task.notices}</td><td><a href="auditAgree.do?processInstanceID=$!{task.processInstanceID}&userID=$!{userID}" >同意</a><a href="auditRefuse.do?processInstanceID=$!{task.processInstanceID}&userID=$!{userID}">拒绝</a></td></tr>
             #end
         #end
     </table>
@@ -33,7 +33,7 @@
         <tr bgcolor="#deb887"><td>流程ID</td><td>执行的任务</td><td>开始时间</td><td>处理时间</td></tr>
         #if($!{doneList})
             #foreach($task in $!{doneList})
-                <tr><td><a target="frame" href="queryActivityDetail.do?processInstanceID=$!{task.progressInstanceID}">$!{task.progressInstanceID}</a></td><td>$!{task.activityName}</td><td>$!{task.startTime}</td><td>$!{task.endTime}</td></tr>
+                <tr><td><a target="frame" href="queryActivityDetail.do?processInstanceID=$!{task.processInstanceID}">$!{task.processInstanceID}</a></td><td>$!{task.activityName}</td><td>$!{task.startTime}</td><td>$!{task.endTime}</td></tr>
             #end
         #end
     </table>

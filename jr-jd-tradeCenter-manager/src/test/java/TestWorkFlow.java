@@ -1,5 +1,13 @@
+import jd.jr.workFlow.bo.request.QueryRequestBo;
+import jd.jr.workFlow.bo.request.StartProcessRequestBo;
+import jd.jr.workFlow.bo.response.QueryResponseBo;
+import jd.jr.workFlow.bo.response.StartProcessResponseBo;
+import jd.jr.workFlow.service.QueryWorkFlowService;
+import jd.jr.workFlow.service.WorkFlowRunService;
 import org.activiti.engine.*;
 import org.activiti.engine.history.*;
+import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.repository.ProcessDefinitionQuery;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ExecutionQuery;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -32,7 +40,32 @@ public class TestWorkFlow {
     private TaskService taskService;
     @Autowired
     private HistoryService historyService;
+    @Autowired
+    private QueryWorkFlowService queryWorkFlowService;
+    @Autowired
+    private WorkFlowRunService workFlowRunService;
 
+
+    @Test
+    public void  testQueryByJSF(){
+        QueryRequestBo queryRequestBo = new QueryRequestBo();
+        queryRequestBo.setUserID("operator1");
+        queryRequestBo.setRoleGroupID("Operaters");
+        QueryResponseBo queryResponseBo = queryWorkFlowService.queryMyTask(queryRequestBo);
+        System.out.println(queryResponseBo.toString());
+    }
+
+    @Test
+    public void  testQueryByJSFStart(){
+        StartProcessRequestBo startProcessRequestBo = new StartProcessRequestBo();
+        startProcessRequestBo.setBizType("financeAssets1");
+        startProcessRequestBo.setSystemSourceID("TradeCenter");
+        startProcessRequestBo.setIniter("inputer1");
+        startProcessRequestBo.setRemark("inputer1录入资产");
+        startProcessRequestBo.setBussinessID("business_001");
+        StartProcessResponseBo startProcessResponseBo =workFlowRunService.startProcessInstance(startProcessRequestBo);
+        System.out.println(startProcessResponseBo.toString());
+    }
     @Test
     public void test(){
 //        repositoryService.createDeployment().addClasspathResource("workFlow/VariablesProcess.bpmn20.xml").deploy();
@@ -189,6 +222,18 @@ public class TestWorkFlow {
         inputVariables.put("assetID", 1111);
         inputVariables.put("notices", "inputer1"+" 录入虚拟资产");
         taskService.complete(inputTask.getId(),inputVariables);
+    }
+    @Test
+    public void test1(){
+        ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery().processDefinitionResourceName("workFlow/VariablesProcess.bpmn20.xml");
+        List<ProcessDefinition> processDefinitionList = processDefinitionQuery.list();
+        for ( ProcessDefinition processDefinition: processDefinitionList) {
+            System.out.println(processDefinition.getId());
+            System.out.println(processDefinition.getName());
+            System.out.println(processDefinition.getResourceName());
+        }
+
+
     }
 
 }

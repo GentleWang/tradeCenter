@@ -19,6 +19,19 @@
     </properties>
     <dependencyManagement>
         <dependencies>
+
+            <!-- 平台工具依赖Start -->
+            <dependency>
+                <groupId>com.jd</groupId>
+                <artifactId>jsf</artifactId>
+                <version>1.6.0</version>
+            </dependency>
+            <dependency>
+                <groupId>jd.jr.workFlow</groupId>
+                <artifactId>jd.jr.workFlow.service</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+            <!-- 平台工具依赖End -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>

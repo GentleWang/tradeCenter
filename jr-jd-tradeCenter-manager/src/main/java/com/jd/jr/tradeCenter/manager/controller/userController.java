@@ -40,8 +40,8 @@ public class userController {
             model.addAttribute("roles",user.getRoles());
             model.addAttribute("rolesGroup",user.getRolesGroup());
             System.out.println("用户："+user.getUserName()+"登录成功");
-            List<Map<String,Object>> taskList = workFlowRun.queryMyToDo(user.getUserID(),user.getRolesGroup());
-            List<Map<String,Object>> doneList = workFlowRun.queryMyHadDone(user.getUserID());
+            List<Map<String,Object>> taskList = workFlowRun.queryMyToDo(user.getUserID(),user.getRolesGroup(),"financeAssets1");
+            List<Map<String,Object>> doneList = workFlowRun.queryMyHadDone(user.getUserID(),"financeAssets1");
             for (Map task:taskList) {
                 System.out.println("用户："+user.getUserName()+"的待办："+task.toString());
             }
@@ -53,30 +53,32 @@ public class userController {
         return "userView";
     }
     @RequestMapping(value ="/auditAgree", method = { RequestMethod.POST, RequestMethod.GET })
-    public String  operatorsAuditAgree(@RequestParam(value = "userID", required = false)String userID,@RequestParam(value = "taskID", required = false)String taskID,HttpServletRequest request, Model model){
-        System.out.println("用户："+userID+"正在审核，任务ID是："+taskID);
+    public String  operatorsAuditAgree(@RequestParam(value = "userID", required = false)String userID,@RequestParam(value = "processInstanceID", required = true)String processInstanceID,HttpServletRequest request, Model model){
+        System.out.println("用户："+userID+"正在审核，业务单号是："+processInstanceID);
         HashMap<String,Object> variables = new HashMap<String, Object>();
-        variables.put("AuditApproved","true");
-        variables.put("resendRequest","true");
+        variables.put("AuditApproved","AGREE");
+        variables.put("resendRequest","AGREE");
         variables.put("notices","同意");
-        workFlowRun.operate(taskID,variables,userID);
+        String roleGroup = UserEnum.valueOf(userID).getRolesGroup();
+        workFlowRun.operate(processInstanceID,variables,userID,"financeAssets1",roleGroup);
         return "login";
     }
     @RequestMapping(value ="/auditRefuse", method = { RequestMethod.POST, RequestMethod.GET })
-    public String operatorsAuditRefuse(@RequestParam(value = "userID", required = false)String userID,@RequestParam(value = "taskID", required = false)String taskID,HttpServletRequest request, Model model){
-        System.out.println("用户："+userID+"正在审核，任务ID是："+taskID);
+    public String operatorsAuditRefuse(@RequestParam(value = "userID", required = false)String userID,@RequestParam(value = "processInstanceID", required = true)String processInstanceID,HttpServletRequest request, Model model){
+        System.out.println("用户："+userID+"正在审核，任务ID是："+processInstanceID);
         HashMap<String,Object> variables = new HashMap<String, Object>();
-        variables.put("AuditApproved","false");
-        variables.put("resendRequest","false");
+        variables.put("AuditApproved","REFUSE");
+        variables.put("resendRequest","REFUSE");
         variables.put("notices","不同意");
-        workFlowRun.operate(taskID,variables,userID);
+        String roleGroup = UserEnum.valueOf(userID).getRolesGroup();
+        workFlowRun.operate(processInstanceID,variables,userID,"financeAssets1",roleGroup);
         return "login";
     }
 
     @RequestMapping(value ="/queryActivityDetail", method = { RequestMethod.POST, RequestMethod.GET })
     public String queryActivityDetail(@RequestParam(value = "processInstanceID")String processInstanceID,HttpServletRequest request,Model model){
         System.out.println("正在查询任务："+processInstanceID+"的详细流程：");
-        List list = workFlowRun.queryProcessIntenceDetail(processInstanceID);
+        List list = workFlowRun.queryProcessIntenceDetail(processInstanceID,"financeAssets1");
         model.addAttribute("activityDetails",list);
         return "processInstanceDetail";
     }

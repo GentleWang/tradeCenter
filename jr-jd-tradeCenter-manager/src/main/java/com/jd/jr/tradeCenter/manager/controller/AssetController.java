@@ -47,7 +47,7 @@ public class AssetController {
             financeAssetsBiz.assetInput(financeAssets);
             model.addAttribute("assetsData",financeAssets);
             model.addAttribute("userID",userID);
-            workFlowRun.startEnvent(id,userID);
+            workFlowRun.startEnvent(id,userID,"financeAssets1");
         } catch (Exception e) {
             e.printStackTrace();
         }

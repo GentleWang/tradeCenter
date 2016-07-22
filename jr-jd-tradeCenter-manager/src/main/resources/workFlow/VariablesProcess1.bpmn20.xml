@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<definitions id="definitions"
+             targetNamespace="http://activiti.org/bpmn20"
+             xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:activiti="http://activiti.org/bpmn">
+
+    <process id="financeAssets1" name ="资产录入流程">
+        <startEvent id="input" activiti:initiator="initer" name="开始" >
+        </startEvent>
+        <sequenceFlow id="flow0" sourceRef="input" targetRef="inputTask" />
+        <userTask id="inputTask" name="登记员录入资产" >
+            <extensionElements>
+                <activiti:formProperty id="remark" name="备注" type="string" />
+            </extensionElements>
+            <humanPerformer>
+                <resourceAssignmentExpression>
+                    <formalExpression>${initer}</formalExpression>
+                </resourceAssignmentExpression>
+            </humanPerformer>
+        </userTask>
+        <sequenceFlow id="flow1" sourceRef="inputTask" targetRef="OperateAudit" />
+        <userTask id="OperateAudit" name="运营初审" >
+            <documentation>
+                ${initer} 录入一份虚拟资产，资产类型是： ${assetType} (备注: ${notices}).
+            </documentation>
+            <extensionElements>
+                <activiti:formProperty id="operate" name="初审意见" type="enum" required="true">
+                    <activiti:value id="YES" name="同意" />
+                    <activiti:value id="NO" name="拒绝" />
+                </activiti:formProperty>
+                <activiti:formProperty id="opinions" name="意见" type="string" />
+                <activiti:formProperty id="remark" name="备注" type="string" />
+            </extensionElements>
+            <potentialOwner>
+                <resourceAssignmentExpression>
+                    <formalExpression>Operaters</formalExpression>
+                </resourceAssignmentExpression>
+            </potentialOwner>
+        </userTask>
+        <sequenceFlow id="flow2" sourceRef="OperateAudit" targetRef="requestApprovedDecision" />
+
+        <exclusiveGateway id="requestApprovedDecision" name="运营是否同意" />
+        <sequenceFlow id="flow3" sourceRef="requestApprovedDecision" targetRef="theEnd1">
+            <!-- 分支跳转条件 -->
+            <conditionExpression xsi:type="tFormalExpression">${operate == 'YES'}</conditionExpression>
+        </sequenceFlow>
+        <endEvent id="theEnd1" name="结束" />
+
+        <sequenceFlow id="flow5" sourceRef="requestApprovedDecision" targetRef="AssetIputAgainTask">
+            <conditionExpression xsi:type="tFormalExpression">${operate == 'NO'}</conditionExpression>
+        </sequenceFlow>
+
+        <userTask id="AssetIputAgainTask" name="修改重新录入">
+            <documentation>
+                请重新录入：
+                原因: ${remark}
+            </documentation>
+            <extensionElements>
+                <activiti:formProperty id="assetType" name="资产类型" type="string" required="true"/>
+                <activiti:formProperty id="remark" name="备注" type="string" />
+                <activiti:formProperty id="operate" name="是否重新提交申请" type="enum" required="true">
+                    <activiti:value id="YES" name="是" />
+                    <activiti:value id="NO" name="否" />
+                </activiti:formProperty>
+            </extensionElements>
+            <humanPerformer>
+                <resourceAssignmentExpression>
+                    <formalExpression>${initer}</formalExpression>
+                </resourceAssignmentExpression>
+            </humanPerformer>
+        </userTask>
+        <sequenceFlow id="flow6" sourceRef="AssetIputAgainTask" targetRef="resendRequestDecision" />
+
+        <exclusiveGateway id="resendRequestDecision" name="是否重新录入" />
+        <sequenceFlow id="flow7" sourceRef="resendRequestDecision" targetRef="OperateAudit">
+            <conditionExpression xsi:type="tFormalExpression">${operate == 'YES'}</conditionExpression>
+        </sequenceFlow>
+
+        <sequenceFlow id="flow8" sourceRef="resendRequestDecision" targetRef="theEnd2">
+            <conditionExpression xsi:type="tFormalExpression">${operate == 'NO'}</conditionExpression>
+        </sequenceFlow>
+        <endEvent id="theEnd2" name="结束"/>
+    </process>
+
+</definitions>

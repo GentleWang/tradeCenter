@@ -14,7 +14,6 @@
      http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
        default-autowire="byName">
 
-    <import resource="classpath:mybatis-config.xml"/>
     <bean id="parentDataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="maxWait" value="30000"></property>
         <property name="validationQuery" value="SELECT 1"></property>

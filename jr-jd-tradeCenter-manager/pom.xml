@@ -12,6 +12,16 @@
     <artifactId>jr-jd-tradeCenter-manager</artifactId>
     <name>jr-jd-tradeCenter-manager</name>
     <dependencies>
+        <!-- 平台工具依赖Start -->
+        <dependency>
+            <groupId>com.jd</groupId>
+            <artifactId>jsf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jd.jr.workFlow</groupId>
+            <artifactId>jd.jr.workFlow.service</artifactId>
+        </dependency>
+        <!-- 平台工具依赖End -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
